@@ -1,7 +1,7 @@
 import requests
 
 # URL эндпоинта (удаляем элемент с ID=1)
-url = "http://127.0.0.1:8000/api/items/4/"
+url = "http://127.0.0.1:8000/api/items/6/"
 
 # Отправка DELETE‑запроса
 response = requests.delete(url)
