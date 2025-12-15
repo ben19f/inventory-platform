@@ -8,13 +8,13 @@ url = itemurl
 data = {
     "tenant_id": 1,
     "category_id": 10,
-    "title": "Скелет волка",
+    "title": "череп собаки",
     "comment": "Выставка 2025",
-    "inventory_number": "EX-001",
+    "inventory_number": "EX-002",
     "attributes": {
         "animal_type": "млекопитающее",
         "predator": True,
-        "weight_kg": 18
+        "weight_kg": 8
     }
 }
 
