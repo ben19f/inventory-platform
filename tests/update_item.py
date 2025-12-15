@@ -2,7 +2,7 @@ import requests
 import json
 
 # URL эндпоинта
-url = "http://127.0.0.1:8000/api/items/6/"
+url = "http://127.0.0.1:8000/api/items/9/"
 
 
 # Данные для отправки (в формате словаря Python)

@@ -9,12 +9,12 @@ data = {
     "tenant_id": 1,
     "category_id": 10,
     "title": "череп собаки",
-    "comment": "Выставка 2025",
-    "inventory_number": "EX-002",
+    "comment": "вроде алабай",
+    "inventory_number": "EX-003",
     "attributes": {
-        "animal_type": "млекопитающее",
+        "animal_type": "птицы",
         "predator": True,
-        "weight_kg": 8
+        "weight_kg": 1
     }
 }
 
