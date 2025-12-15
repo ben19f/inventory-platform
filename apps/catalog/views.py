@@ -41,3 +41,19 @@ class ItemListAPIView(APIView):
         items = Item.objects.filter(tenant_id=tenant_id)
         serializer = ItemCreateSerializer(items, many=True)
         return Response(serializer.data)
+
+class ItemDeleteAPIView(APIView):
+    """
+    DELETE /api/items/{id}/
+    Удаляет предмет по id
+    """
+
+    def delete(self, request, item_id):
+        try:
+            item = Item.objects.get(id=item_id)
+        except Item.DoesNotExist:
+            return Response({"detail": "Item not found"}, status=404)
+
+        item.delete()
+        # return Response({"detail": "Item deleted"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"detail": "Item deleted"}, status=status.HTTP_200_OK ) # 200 OK
