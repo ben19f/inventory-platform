@@ -9,12 +9,44 @@ from .serializers import ItemCreateSerializer
 class ItemCreateAPIView(APIView):
     """
     Endpoint для добавления нового предмета.
+    Проверяет уникальность комбинации: tenant_id + category_id + inventory_number.
     """
 
     def post(self, request):
         print('-----')
         print('---')
         print(request.data)
+        # Получаем ключевые поля из входящих данных
+        tenant_id = request.data.get('tenant_id')
+        category_id = request.data.get('category_id')
+        inventory_number = request.data.get('inventory_number')
+
+        # Проверяем, все ли поля переданы
+        if not tenant_id or not category_id or not inventory_number:
+            return Response(
+                {
+                    'error': 'Обязательны поля: tenant_id, category_id, inventory_number.'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Проверяем, существует ли уже запись с такой тройкой значений
+        if Item.objects.filter(
+                tenant_id=tenant_id,
+                category_id=category_id,
+                inventory_number=inventory_number
+        ).exists():
+            return Response(
+                {
+                    'error': (
+                        f'У вашей организации в категории {category_id} '
+                        f'инвентарный номер {inventory_number} уже существует.'
+                    )
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+            # Если проверки прошли — продолжаем стандартную обработку
         serializer = ItemCreateSerializer(data=request.data)
         print('====')
         print(serializer)

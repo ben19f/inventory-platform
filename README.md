@@ -17,5 +17,5 @@ Cистема инвентаризации, разрабатывается ка�
 - скачать репозиторий
 - создать виртуальное окружение
 - усстановить зависимости pip install requirements.txt или pip install -r requirements.txt (для windows)
-- создать бд  python manage.py makemigrations
+- создать бд  python manage.py makemigrations catalog
               python manage.py migrate
