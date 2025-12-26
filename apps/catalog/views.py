@@ -100,13 +100,35 @@ class ItemDetailAPIView(APIView):
     def patch(self, request, item_id):
         item = self.get_object(item_id)
         if not item:
-            return Response({"detail": "Item not found"}, status=404)
+            return Response({"detail": "Item not found"}, status=status.HTTP_404_NOT_FOUND)
 
+        # Получаем новые значения из request.data (если они переданы)
+        new_tenant_id = request.data.get('tenant_id', item.tenant_id)
+        new_category_id = request.data.get('category_id', item.category_id)
+        new_inventory_number = request.data.get('inventory_number', item.inventory_number)
+
+        # Проверяем, не совпадает ли новая комбинация с существующей записью (кроме текущей)
+        if Item.objects.filter(
+            tenant_id=new_tenant_id,
+            category_id=new_category_id,
+            inventory_number=new_inventory_number
+        ).exclude(id=item.id).exists():
+            return Response(
+                {
+                    'error': (
+                        'Запись с такими inventory_number уже существует.'
+                    )
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Если проверка пройдена — продолжаем обновление
         serializer = ItemCreateSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, item_id):
         item = self.get_object(item_id)
